@@ -1,0 +1,8 @@
+<!-- Auralis Music gradient background -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="135.0"
+        android:endColor="#6C63FF"
+        android:startColor="#1A1A2E"
+        android:type="linear" />
+</shape>

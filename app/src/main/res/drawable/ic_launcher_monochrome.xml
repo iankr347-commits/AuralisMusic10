@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="108dp"
+    android:width="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Music Note Symbol - Monochrome -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M54,20
+                         L54,65
+                         C54,65 48,60 40,60
+                         C32,60 26,65 26,72
+                         C26,79 32,84 40,84
+                         C48,84 54,79 54,72
+                         L54,36
+                         L74,32
+                         L74,57
+                         C74,57 68,52 60,52
+                         C52,52 46,57 46,64
+                         C46,71 52,76 60,76
+                         C68,76 74,71 74,64
+                         L74,24
+                         Z"/>
+</vector>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Auralis Brand Colors -->
+    <color name="ic_launcher_static_background">#1A1A2E</color>
+    
+    <!-- Auralis Primary Colors - Modern Purple/Blue Gradient Scheme -->
+    <color name="auralis_primary">#6C63FF</color>
+    <color name="auralis_primary_variant">#5A52E0</color>
+    <color name="auralis_secondary">#03DAC6</color>
+    <color name="auralis_secondary_variant">#018786</color>
+    <color name="auralis_accent">#BB86FC</color>
+    
+    <!-- Light Theme Colors -->
+    <color name="auralis_background_light">#FFFFFF</color>
+    <color name="auralis_surface_light">#F5F5F5</color>
+    <color name="auralis_on_background_light">#1A1A2E</color>
+    <color name="auralis_on_surface_light">#1A1A2E</color>
+    
+    <!-- Dark Theme Colors -->
+    <color name="auralis_background_dark">#121212</color>
+    <color name="auralis_surface_dark">#1E1E2E</color>
+    <color name="auralis_on_background_dark">#FFFFFF</color>
+    <color name="auralis_on_surface_dark">#E0E0E0</color>
+    
+    <!-- Pure Black (AMOLED) Theme Colors -->
+    <color name="auralis_background_pure_black">#000000</color>
+    <color name="auralis_surface_pure_black">#0A0A0A</color>
+    
+    <!-- Player Colors -->
+    <color name="auralis_player_background">#1A1A2E</color>
+    <color name="auralis_mini_player_background">#2D2D44</color>
+    
+    <!-- Additional UI Colors -->
+    <color name="auralis_error">#CF6679</color>
+    <color name="auralis_success">#4CAF50</color>
+    <color name="auralis_warning">#FFC107</color>
+</resources>
