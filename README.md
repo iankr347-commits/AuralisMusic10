@@ -63,7 +63,7 @@ To build the application locally, follow these steps:
 2.  **Configure Android SDK**
     Create a `local.properties` file and define your SDK path:
     ```bash
-    echo "sdk.dir=/path/to/your/android/sdk" > local.properties
+     AuralisMusic "sdk.dir=/path/to/your/android/sdk" > local.properties
     ```
 
 3.  **Firebase Configuration**
