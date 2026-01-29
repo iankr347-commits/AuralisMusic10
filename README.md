@@ -7,7 +7,7 @@
   
   
   <p>
-    <a href="../assets/download.png">
+    <a href="../assets/download.png">(https://auralismusic.vercel.app/index.html)
       <img src="assets/download.png" alt="Direct Download" width="200">
     </a>
     <a href="https://github.com/iankr347/AuralisMusic467">
