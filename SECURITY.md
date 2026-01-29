@@ -94,4 +94,4 @@ This security policy is part of the Auralis Music project and follows the same G
 
 ---
 
-**Note**: This security policy is a living document and may be updated as our security practices evolve. Last updated: January 2025
+**Note**: This security policy is a living document and may be updated as our security practices evolve. Last updated: January 2026
