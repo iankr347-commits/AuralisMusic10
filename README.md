@@ -78,9 +78,9 @@ This project is still under active development. Some features may be incomplete 
 
 <div align="center">
   <img src="assets/sh1.jpg" alt="Home Screen" width="180">
-  <img src="assets/sh1.jpg" alt="Now Playing" width="180">
-  <img src="assets/sh1.jpg" alt="Search" width="180">
-  <img src="assets/sh1.jpg" alt="Library" width="180">
+  <img src="assets/sh4.jpg" alt="Now Playing" width="180">
+  <img src="assets/sh2.jpg" alt="Search" width="180">
+  <img src="assets/sh3.jpg" alt="Library" width="180">
  
 </div>
 
