@@ -6,15 +6,16 @@
   <p>A robust, open-source music streaming client offering an ad-free experience, offline capabilities, and advanced music discovery.</p>
   
   
-  <p>
-    <a href="../assets/download.png" (https://auralismusic.vercel.app/index.html)>
-      <img src="assets/download.png" alt="Direct Download" width="200">
-    </a>
-    <a href="https://github.com/iankr347/AuralisMusic467">
-      <img src="assets/github.png" alt="Available on GitHub" width="200">
-    </a>
-  </p>
-</div>
+  <p align="center">
+  <a href="https://auralismusic.vercel.app/index.html">
+    <img src="assets/download.png" alt="Direct Download" width="200">
+  </a>
+
+  <a href="https://github.com/iankr347/AuralisMusic467">
+    <img src="assets/github.png" alt="Available on GitHub" width="200">
+  </a>
+</p>
+
 
 ---
 
