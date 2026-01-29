@@ -6,7 +6,6 @@
   <a href="https://auralismusic.vercel.app/"><img src="assets/download.png" alt="Download" width="200"/></a>
   <br>
   <a href="https://github.com/iankr347-commits/AuralisMusic10/releases"><img src="assets/github.png" alt="Releases" width="160"/></a>
-  <a href=""><img src="assets/obtainium.png" alt="Obtainium" width="200"/></a>
 </div>
 
 ---
