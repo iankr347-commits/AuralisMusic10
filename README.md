@@ -103,7 +103,7 @@ This repository follows a strict, staged branch workflow to maintain stability w
 
  The project owner has final authority on all decisions.
 
-## If you don’t agree with these rules, do not contribute.
+ (If you don’t agree with these rules, do not contribute)
 
 ---
 ---
