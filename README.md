@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="../assets/logo.png" alt="Auralis Music Logo" width="120" height="120">
+  <img src="assets/logo.png" alt="Auralis Music Logo" width="120" height="120">
   
   <h1>Auralis Music</h1>
   
@@ -13,10 +13,10 @@
   
   <p>
     <a href="../assets/download.png">
-      <img src="../assets/download.png" alt="Direct Download" width="200">
+      <img src="assets/download.png" alt="Direct Download" width="200">
     </a>
     <a href="https://github.com/iankr347/AuralisMusic467">
-      <img src="../assets/github.png" alt="Available on GitHub" width="200">
+      <img src="assets/github.png" alt="Available on GitHub" width="200">
     </a>
   </p>
 </div>
