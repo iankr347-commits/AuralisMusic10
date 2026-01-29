@@ -34,42 +34,42 @@ This project is still under active development. Some features may be incomplete 
 ## Features
 
 ### 🎵 Streaming and Playback
-- **High-Quality Audio**: Stream music in various bitrates up to 320kbps
-- **Background Playback**: Keep music playing even when the app is in the background
-- **Gapless Playback**: Seamless transitions between tracks
-- **Crossfade Support**: Smooth audio transitions between songs
-- **Audio Enhancement**: Built-in equalizer with presets and custom settings
-- **Sleep Timer**: Automatically stop playback after a set duration
+- High-quality audio streaming up to **320 kbps**
+- Background playback
+- Gapless playback
+- Crossfade support
+- Built-in equalizer (presets + custom)
+- Sleep timer
 
 ### 🎨 User Interface
-- **Material Design 3**: Modern, clean interface following Android's latest design guidelines
-- **Multiple Themes**: Light, Dark, and Pure Black (AMOLED) themes
-- **Customizable Home Screen**: Personalize your music experience
-- **Intuitive Navigation**: Easy-to-use interface with smooth animations
-- **Responsive Design**: Optimized for phones and tablets
+- Material Design 3 (Jetpack Compose)
+- Light, Dark, and AMOLED themes
+- Customizable home screen
+- Smooth animations and intuitive navigation
+- Phone & tablet optimized layouts
 
 ### 📚 Library Management
-- **Full Library Access**: Browse your entire music collection
-- **Smart Playlists**: Automatically generated playlists based on your listening habits
-- **Import/Export**: Support for various playlist formats
-- **Offline Mode**: Download songs for offline listening
-- **Metadata Editing**: Edit song information and album art
-- **Duplicate Detection**: Find and remove duplicate tracks
+- Full local & online library access
+- Smart playlists
+- Playlist import/export
+- Offline downloads
+- Metadata editing
+- Duplicate track detection
 
 ### 🔍 Discovery and Recommendations
-- **Advanced Search**: Find songs, albums, artists, and playlists
-- **Personalized Recommendations**: Discover new music based on your taste
-- **Trending Charts**: Stay updated with the latest hits
-- **Radio Stations**: Create custom radio stations based on your preferences
-- **Similar Artists**: Explore music from artists similar to your favorites
+- Advanced search
+- Personalized recommendations
+- Trending charts
+- Custom radio stations
+- Similar artist discovery
 
 ### ⚙️ Advanced Capabilities
-- **Last.fm Integration**: Scrobble your tracks to Last.fm
-- **Discord Rich Presence**: Show what you're listening to on Discord
-- **Lyrics Support**: Display synchronized lyrics for your favorite songs
-- **Podcast Support**: Listen to your favorite podcasts
-- **Cloud Sync**: Sync your library across multiple devices
-- **Proxy Support**: Use custom proxy settings for enhanced privacy
+- Last.fm scrobbling
+- Discord Rich Presence
+- Synchronized lyrics
+- Podcast support
+- Proxy support for privacy
+
 
 ---
 
