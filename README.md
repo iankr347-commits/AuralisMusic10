@@ -79,63 +79,31 @@ To build the application locally, follow these steps:
 ---
 ---
 
-## Contributing Guide
+## Developer Contribution Guidelines
 Thank you for your interest in contributing!
 This repository follows a strict, staged branch workflow to maintain stability while allowing controlled development and testing.
 
-Please read this document fully before opening a pull request.
+# Please read this document fully before opening a pull request.
 
-##  Repository Overview
+# Direct commits to main are not allowed. Use feature or fix branches only.
 
-- **Project type**: Kotlin/Android application
-- **Primary maintainer**: Solo maintainer
-- **Default branch**: main
+# Every change must go through a Pull Request and review.
 
-##  Branching Model
+# Follow existing code style, structure, and architecture. Do not improvise.
 
-This project uses three long-lived branches:
+# Do not break existing features, refactor large sections, or add dependencies without approval.
 
-### `dev` — Development
-- All active development happens here
-- Used by the maintainer for manual testing
-- May be unstable or incomplete
-- All pull requests must target `dev`
--  **This is the only branch contributors should use.**
+# No untested, unfinished, or experimental code.
 
-### `beta` — Pre-release
-- Receives changes only from `dev`
-- Used for wider testing and early access
-- Merging into beta:
-  - Automatically publishes a beta GitHub release
-  - Version format: `x.y.z-beta.n`
--  Contributors should not open PRs directly to beta.
+# Secrets, keys, and credentials must never be committed.
 
-### `main` — Stable
-- Production-ready code only
-- Receives changes only from `beta`
-- Merging into main:
-  - Automatically publishes a stable GitHub release
-  - Version format: `x.y.z`
--  Pull requests to main are not accepted.
+# One feature or fix per PR. Keep changes small and clear.
 
-##  Issues & Discussions
+# Update documentation if behavior or features change.
 
-- **Bug reports & feature requests**: GitHub Issues
-- **Questions & general discussion**: GitHub Discussions
-- Old or unstructured issues may be closed during maintenance cleanups
+# The project owner has final authority on all decisions.
 
-##  Code Guidelines
-
-- Follow Kotlin and Android best practices
-- Prefer clarity over cleverness
-- Avoid introducing new dependencies without discussion
-- Platform-specific logic should be well-isolated
-
-##  Maintainer Notes
-
-- This is a solo-maintained project
-- Reviews and merges may take time
-- Large or architectural changes should be discussed before implementation
+## If you don’t agree with these rules, do not contribute.
 
 ---
 ---
