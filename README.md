@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="..AuralisMusic10
-/Logo" alt="Auralis Music Logo" width="120" height="120">
+  <img src="../assets/logo.png" alt="Auralis Music Logo" width="120" height="120">
   
   <h1>Auralis Music</h1>
   
