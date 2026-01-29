@@ -34,7 +34,7 @@ Auralis Music is designed to provide a seamless and premium music listening expe
 *   **Background Playback:** Continue listening while using other applications or when the screen is off.
 *   **Offline Mode:** Download tracks, albums, and playlists for offline listening with a dedicated download manager.
 
-### Discovery and Echo Find
+### Discovery and Find
 *   **Smart Recommendations:** Receive personalized song suggestions based on your listening history and preferences whit ai mode(beta).
 *   **Comprehensive Browsing:** Explore Charts, Podcasts, Moods, and Genres to discover new music.
 
