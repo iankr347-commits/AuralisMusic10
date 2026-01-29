@@ -85,13 +85,13 @@ This repository follows a strict, staged branch workflow to maintain stability w
 
 Please read this document fully before opening a pull request.
 
-## 📌 Repository Overview
+##  Repository Overview
 
 - **Project type**: Kotlin/Android application
 - **Primary maintainer**: Solo maintainer
 - **Default branch**: main
 
-## 🌿 Branching Model
+##  Branching Model
 
 This project uses three long-lived branches:
 
@@ -100,7 +100,7 @@ This project uses three long-lived branches:
 - Used by the maintainer for manual testing
 - May be unstable or incomplete
 - All pull requests must target `dev`
-- ✅ **This is the only branch contributors should use.**
+-  **This is the only branch contributors should use.**
 
 ### `beta` — Pre-release
 - Receives changes only from `dev`
@@ -108,7 +108,7 @@ This project uses three long-lived branches:
 - Merging into beta:
   - Automatically publishes a beta GitHub release
   - Version format: `x.y.z-beta.n`
-- 🚫 Contributors should not open PRs directly to beta.
+-  Contributors should not open PRs directly to beta.
 
 ### `main` — Stable
 - Production-ready code only
@@ -116,22 +116,22 @@ This project uses three long-lived branches:
 - Merging into main:
   - Automatically publishes a stable GitHub release
   - Version format: `x.y.z`
-- 🚫 Pull requests to main are not accepted.
+-  Pull requests to main are not accepted.
 
-## 🐞 Issues & Discussions
+##  Issues & Discussions
 
 - **Bug reports & feature requests**: GitHub Issues
 - **Questions & general discussion**: GitHub Discussions
 - Old or unstructured issues may be closed during maintenance cleanups
 
-## 📐 Code Guidelines
+##  Code Guidelines
 
 - Follow Kotlin and Android best practices
 - Prefer clarity over cleverness
 - Avoid introducing new dependencies without discussion
 - Platform-specific logic should be well-isolated
 
-## 🔒 Maintainer Notes
+##  Maintainer Notes
 
 - This is a solo-maintained project
 - Reviews and merges may take time
