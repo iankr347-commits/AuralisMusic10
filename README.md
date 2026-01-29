@@ -30,11 +30,11 @@ Auralis Music is designed to provide a seamless and premium music listening expe
 
 ### Streaming and Playback
 *   **Ad-Free Experience:** Stream music without interruptions from advertisements.
-*   **seamless Playback:** Switch effortlessly between audio-only and video modes.
+*   **seamless Playback:** seamless songs Playback.
 *   **Background Playback:** Continue listening while using other applications or when the screen is off.
 *   **Offline Mode:** Download tracks, albums, and playlists for offline listening with a dedicated download manager.
 
-### Discovery and Find
+### Discovery
 *   **Smart Recommendations:** Receive personalized song suggestions based on your listening history and preferences whit ai mode(beta).
 *   **Comprehensive Browsing:** Explore Charts, Podcasts, Moods, and Genres to discover new music.
 
