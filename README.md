@@ -104,8 +104,8 @@ This project is still under active development. Some features may be incomplete 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/iankr347/AuralisMusic467.git
-   cd AuralisMusic467
+   git clone https://github.com/iankr347/AuralisMusic10.git
+   cd AuralisMusic10
    ```
 
 2. **Configure Android SDK**
@@ -159,9 +159,9 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) f
 
 ## Support
 
-- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic467/issues)
-- **Discussions**: Join our community discussions on [GitHub Discussions](https://github.com/iankr347/AuralisMusic467/discussions)
-- **Wiki**: Check out our [Wiki](https://github.com/iankr347/AuralisMusic467/wiki) for detailed guides
+- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic10/issues)
+- **Discussions**: Join our community discussions on [GitHub Discussions](https://github.com/iankr347/AuralisMusic10/discussions)
+- **Wiki**: Check out our [Wiki](https://github.com/iankr347/AuralisMusic10/wiki) for detailed guides
 
 ---
 
