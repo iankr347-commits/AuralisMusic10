@@ -5,11 +5,6 @@
   
   <p>A robust, open-source music streaming client offering an ad-free experience, offline capabilities, and advanced music discovery.</p>
   
-  <p>
-    <img src="https://img.shields.io/badge/Platform-Android-green?style=for-the-badge" alt="Platform" />
-    <img src="https://img.shields.io/badge/API-26%2B-blue?style=for-the-badge" alt="API" />
-    <img src="https://img.shields.io/badge/License-GPL--3.0-orange?style=for-the-badge" alt="License" />
-  </p>
   
   <p>
     <a href="../assets/download.png">
