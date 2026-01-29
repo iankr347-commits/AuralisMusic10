@@ -147,8 +147,8 @@ fun AboutScreen(
             modifier = Modifier.padding(horizontal = 24.dp)
         ) {
             Button(
-                onClick = { uriHandler.openUri("https://github.com/iankr347-commits/AuralisMusic") },
-                modifier = Modifier.weight(1f),
+                onClick = { uriHandler.openUri("https://github.com/iankr347-commits/AuralisMusic10") },
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
             ) {
                 Icon(
@@ -158,20 +158,6 @@ fun AboutScreen(
                 )
                 Spacer(Modifier.width(8.dp))
                 Text("GitHub")
-            }
-
-            Button(
-                onClick = { uriHandler.openUri("https://discord.com/invite/2UV5PDNDu2") },
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(12.dp),
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.discord),
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(Modifier.width(8.dp))
-                Text("Discord")
             }
         }
 
@@ -257,19 +243,6 @@ fun AboutScreen(
                 Text("Contact")
             }
 
-            OutlinedButton(
-                onClick = { navController.navigate("license/disclaimer") },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.info),
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(Modifier.width(8.dp))
-                Text("Disclaimer & License Notice")
-            }
         }
 
         Spacer(Modifier.height(32.dp))

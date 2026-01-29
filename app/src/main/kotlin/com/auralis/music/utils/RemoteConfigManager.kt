@@ -3,6 +3,8 @@ package com.auralis.music.utils
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Singleton manager for Firebase Remote Config
@@ -16,12 +18,23 @@ object RemoteConfigManager {
     private const val KEY_FORCE_UPDATE = "force_update"
     private const val KEY_UPDATE_MESSAGE = "update_message"
     private const val KEY_UPDATE_URL = "update_url"
+    private const val KEY_MAINTENANCE_MODE = "maintenance_mode"
+    private const val KEY_MAINTENANCE_TEXT = "maintenance_text"
     
     // Default values
     private const val DEFAULT_LATEST_VERSION_CODE = 0L
     private const val DEFAULT_FORCE_UPDATE = false
     private const val DEFAULT_UPDATE_MESSAGE = "A new version is available. Please update to continue."
     private const val DEFAULT_UPDATE_URL = ""
+    private const val DEFAULT_MAINTENANCE_MODE = false
+    private const val DEFAULT_MAINTENANCE_TEXT = "Soon"
+
+    // Exposed state for Compose/UI to observe maintenance mode
+    private val _maintenanceMode = MutableStateFlow(DEFAULT_MAINTENANCE_MODE)
+    val maintenanceModeFlow: StateFlow<Boolean> get() = _maintenanceMode
+
+    private val _maintenanceText = MutableStateFlow(DEFAULT_MAINTENANCE_TEXT)
+    val maintenanceTextFlow: StateFlow<String> get() = _maintenanceText
     
     /**
      * Initialize Remote Config with settings
@@ -51,7 +64,16 @@ object RemoteConfigManager {
      */
     suspend fun fetchAndActivate(): Boolean {
         return try {
-            remoteConfig.fetchAndActivate().await()
+            val activated = remoteConfig.fetchAndActivate().await()
+            // Update maintenance state after fetch
+            try {
+                _maintenanceMode.value = remoteConfig.getBoolean(KEY_MAINTENANCE_MODE)
+                val text = remoteConfig.getString(KEY_MAINTENANCE_TEXT)
+                _maintenanceText.value = if (text.isEmpty()) DEFAULT_MAINTENANCE_TEXT else text
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            activated
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -70,6 +92,29 @@ object RemoteConfigManager {
      */
     fun isForceUpdate(): Boolean {
         return remoteConfig.getBoolean(KEY_FORCE_UPDATE)
+    }
+
+    /**
+     * Check if maintenance mode is enabled
+     */
+    fun isMaintenanceMode(): Boolean {
+        return try {
+            remoteConfig.getBoolean(KEY_MAINTENANCE_MODE)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get maintenance message text
+     */
+    fun getMaintenanceText(): String {
+        val message = try {
+            remoteConfig.getString(KEY_MAINTENANCE_TEXT)
+        } catch (e: Exception) {
+            ""
+        }
+        return message.ifEmpty { DEFAULT_MAINTENANCE_TEXT }
     }
     
     /**

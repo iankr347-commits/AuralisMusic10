@@ -198,6 +198,14 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
+import android.app.Dialog
+import android.graphics.Color as AndroidColor
+import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
+import kotlinx.coroutines.flow.collect
 
 @Suppress("DEPRECATION", "ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
 @AndroidEntryPoint
@@ -215,6 +223,9 @@ class MainActivity : ComponentActivity() {
     private var pendingIntent: Intent? = null
 
     private var playerConnection by mutableStateOf<PlayerConnection?>(null)
+
+    // Fullscreen maintenance dialog (blocks interaction when shown)
+    private var maintenanceDialog: Dialog? = null
 
     private val serviceConnection =
         object : ServiceConnection {
@@ -277,6 +288,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun showMaintenanceDialog(text: String) {
+        if (maintenanceDialog?.isShowing == true) return
+
+        val dialog = Dialog(this)
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(AndroidColor.BLACK))
+
+        val tv = TextView(this).apply {
+            this.text = text
+            setTextColor(AndroidColor.WHITE)
+            textSize = 24f
+            gravity = Gravity.CENTER
+            setTypeface(null, android.graphics.Typeface.BOLD)
+        }
+
+        val container = FrameLayout(this)
+        val lp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        container.addView(tv, lp)
+
+        dialog.setContentView(container)
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+        maintenanceDialog = dialog
+    }
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -315,6 +352,19 @@ class MainActivity : ComponentActivity() {
                 RemoteConfigManager.fetchAndActivate()
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+
+        // Observe maintenance mode and show a blocking fullscreen dialog when enabled
+        lifecycleScope.launchWhenStarted {
+            RemoteConfigManager.maintenanceModeFlow.collect { enabled ->
+                if (enabled) {
+                    val text = RemoteConfigManager.getMaintenanceText()
+                    showMaintenanceDialog(text)
+                } else {
+                    maintenanceDialog?.dismiss()
+                    maintenanceDialog = null
+                }
             }
         }
 

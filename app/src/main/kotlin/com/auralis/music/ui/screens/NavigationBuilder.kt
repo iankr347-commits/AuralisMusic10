@@ -60,7 +60,6 @@ import com.auralis.music.ui.screens.playlist.CachePlaylistScreen
 import com.auralis.music.ui.screens.search.OnlineSearchResult
 import com.auralis.music.ui.screens.search.SearchScreen
 import com.auralis.music.ui.screens.settings.AboutScreen
-import com.auralis.music.ui.screens.settings.LicenseScreen
 import com.auralis.music.ui.screens.settings.AccountSettings
 import com.auralis.music.ui.screens.settings.AppearanceSettings
 import com.auralis.music.ui.screens.settings.BackupSettings
@@ -338,13 +337,6 @@ fun NavGraphBuilder.navigationBuilder(
     }
     composable("settings/about") {
         AboutScreen(navController, scrollBehavior)
-    }
-    composable(
-        route = "license/{type}",
-        arguments = listOf(navArgument("type") { type = NavType.StringType })
-    ) { backStackEntry ->
-        val licenseType = backStackEntry.arguments?.getString("type") ?: "gpl"
-        LicenseScreen(navController, scrollBehavior, licenseType)
     }
     composable("login") {
         LoginScreen(navController)
