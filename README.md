@@ -83,25 +83,25 @@ To build the application locally, follow these steps:
 Thank you for your interest in contributing!
 This repository follows a strict, staged branch workflow to maintain stability while allowing controlled development and testing.
 
-# Please read this document fully before opening a pull request.
+ Please read this document fully before opening a pull request.
 
-# Direct commits to main are not allowed. Use feature or fix branches only.
+ Direct commits to main are not allowed. Use feature or fix branches only.
 
-# Every change must go through a Pull Request and review.
+ Every change must go through a Pull Request and review.
 
-# Follow existing code style, structure, and architecture. Do not improvise.
+ Follow existing code style, structure, and architecture. Do not improvise.
 
-# Do not break existing features, refactor large sections, or add dependencies without approval.
+ Do not break existing features, refactor large sections, or add dependencies without approval.
 
-# No untested, unfinished, or experimental code.
+ No untested, unfinished, or experimental code.
 
-# Secrets, keys, and credentials must never be committed.
+ Secrets, keys, and credentials must never be committed.
 
-# One feature or fix per PR. Keep changes small and clear.
+ One feature or fix per PR. Keep changes small and clear.
 
-# Update documentation if behavior or features change.
+ Update documentation if behavior or features change.
 
-# The project owner has final authority on all decisions.
+ The project owner has final authority on all decisions.
 
 ## If you don’t agree with these rules, do not contribute.
 
