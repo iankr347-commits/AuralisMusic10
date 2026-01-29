@@ -77,11 +77,11 @@ This project is still under active development. Some features may be incomplete 
 ### Mobile
 
 <div align="center">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Home+Screen" alt="Home Screen" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Now+Playing" alt="Now Playing" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Search" alt="Search" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Library" alt="Library" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Settings" alt="Settings" width="180">
+  <img src="assets/sh1.jpg" alt="Home Screen" width="180">
+  <img src="assets/sh1.jpg" alt="Now Playing" width="180">
+  <img src="assets/sh1.jpg" alt="Search" width="180">
+  <img src="assets/sh1.jpg" alt="Library" width="180">
+ 
 </div>
 
 ---
