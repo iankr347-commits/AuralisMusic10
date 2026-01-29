@@ -155,8 +155,6 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) f
 ## Support
 
 - **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic10/issues)
-- **Discussions**: Join our community discussions on [GitHub Discussions](https://github.com/iankr347/AuralisMusic10/discussions)
-- **Wiki**: Check out our [Wiki](https://github.com/iankr347/AuralisMusic10/wiki) for detailed guides
 
 ---
 
