@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.png" alt="Auralis Music Logo" width="120" height="120">
+  <img src="assets/ic_launcher-playstore.png" alt="Auralis Music Logo" width="120" height="120">
   
   <h1>Auralis Music</h1>
   
@@ -8,11 +8,11 @@
   
   <p align="center">
   <a href="https://auralismusic.vercel.app/index.html">
-    <img src="assets/download.png" alt="Direct Download" width="200">
+    <img src="assets/buymeacoffee.png" alt="Direct Download" width="200">
   </a>
 
   <a href="https://github.com/iankr347/AuralisMusic467">
-    <img src="assets/github.png" alt="Available on GitHub" width="200">
+    <img src="assets/XMR.png" alt="Available on GitHub" width="200">
   </a>
 </p>
 
@@ -73,20 +73,6 @@ This project is still under active development. Some features may be incomplete 
 
 ---
 
-## Screenshots
-
-### Mobile
-
-<div align="center">
-  <img src="assets/sh1.jpg" alt="Home Screen" width="180">
-  <img src="assets/sh4.jpg" alt="Now Playing" width="180">
-  <img src="assets/sh2.jpg" alt="Search" width="180">
-  <img src="assets/sh3.jpg" alt="Library" width="180">
- 
-</div>
-
----
-
 ## Installation
 
 ### Direct Download (APK)
@@ -100,8 +86,8 @@ This project is still under active development. Some features may be incomplete 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/iankr347/AuralisMusic10.git
-   cd AuralisMusic10
+   git clone https://github.com/iankr347/AuralisMusic467.git
+   cd AuralisMusic467
    ```
 
 2. **Configure Android SDK**
@@ -155,11 +141,11 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) f
 
 ## Support
 
-- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic10/issues)
+- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic467/issues)
 
 ---
 
 <div align="center">
   <p>Made with ❤️ for music lovers</p>
-  <p>© 2024 Auralis Music. All rights reserved.</p>
+  <p>© 2025 Auralis Music. All rights reserved.</p>
 </div>
