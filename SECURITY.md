@@ -86,7 +86,6 @@ We follow a responsible disclosure approach:
 
 ## Security Contact Information
 
-- **Security Team**: security@auralismusic.com
 - **GitHub Issues**: [Private Issue Reporting](https://github.com/iankr347/AuralisMusic467/issues/new)
 - **PGP Fingerprint**: Available upon request
 
