@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/logo.png" alt="Auralis Music" width="140"/>
   <h1>Auralis Music</h1>
-  <p><strong>A modern, ad-free offline music player designed for audiophiles. Sleek dark mode, powerful equalizer, and seamless lyrics integration.</strong></p>
+  <p><strong>A modern music streaming app with adfree experience, synced lyrics, and offline playback.</strong></p>
 
   <a href="https://auralismusic.vercel.app/"><img src="assets/download.png" alt="Download" width="200"/></a>
   <br>
