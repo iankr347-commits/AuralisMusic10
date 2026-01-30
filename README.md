@@ -43,6 +43,8 @@ Auralis Music is designed to provide a seamless and premium music listening expe
 *   **Sleep Timer:** Configure automatic playback cessation after a specified duration.
 *   **Cross-Device Support:** Cast content to Chromecast-enabled devices compatible network speakers and TVs.
 *   **Data Import:** Import playlists and library data from other services.
+  
+---
 
 ### Important note
 * Auralis Music uses Firebase only for essential services such as Analytics, Crashlytics, and App Remote Updates. Auralis does not collect or store any personal information, including phone numbers, email addresses, photos, media files, or personal contacts.
