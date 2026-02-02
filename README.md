@@ -119,6 +119,14 @@ This project and its contents are not affiliated with, funded, authorized, endor
 Auralis music is an open-source project created for educational and personal use. Users are responsible for ensuring their usage complies with YouTube's Terms of Service and applicable laws in their jurisdiction.
 
 ---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=iankr347-commits/AuralisMusic10&type=date&legend=top-left)](https://www.star-history.com/#iankr347-commits/AuralisMusic10&type=date&legend=top-left)
+-
+
+---
+
 <div align="center">
     Licensed under <a href="LICENSE">GPL-3.0</a>
 </div>
