@@ -27,6 +27,7 @@ import com.auralis.music.extensions.toEnum
 import com.auralis.music.extensions.toInetSocketAddress
 import com.auralis.music.utils.dataStore
 import com.auralis.music.utils.get
+import com.auralis.music.utils.BackupScheduler
 import com.auralis.music.utils.reportException
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +68,7 @@ class App : Application(), SingletonImageLoader.Factory {
         applicationScope.launch {
             initializeSettings()
             observeSettingsChanges()
+            initializeAutoBackup()
         }
     }
 
@@ -193,6 +195,25 @@ class App : Application(), SingletonImageLoader.Factory {
                 )
             }
         }.build()
+    }
+
+    private suspend fun initializeAutoBackup() {
+        try {
+            val settings = dataStore.data.first()
+            val autoBackupEnabled = settings[AutoBackupEnabledKey] ?: false
+            val autoBackupTime = settings[AutoBackupTimeKey] ?: "12:00"
+            
+            if (autoBackupEnabled) {
+                Timber.tag("App").i("Initializing auto backup schedule at $autoBackupTime")
+                BackupScheduler.scheduleBackup(this, autoBackupTime)
+            } else {
+                // Cancel any existing backup schedule if auto backup is disabled
+                BackupScheduler.cancelBackup(this)
+                Timber.tag("App").i("Auto backup is disabled")
+            }
+        } catch (e: Exception) {
+            Timber.tag("App").e(e, "Failed to initialize auto backup")
+        }
     }
 
     companion object {

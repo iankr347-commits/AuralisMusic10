@@ -36,18 +36,30 @@ object BackupScheduler {
                 nextBackup = nextBackup.plusDays(1)
             }
             
-            val initialDelay = Duration.between(now, nextBackup).toMinutes()
+            val initialDelayMinutes = Duration.between(now, nextBackup).toMinutes()
             
-            Timber.tag("BackupScheduler").i("Scheduling backup at $backupTime (in $initialDelay minutes)")
+            // Ensure minimum delay of 15 minutes for WorkManager
+            val actualDelay = maxOf(initialDelayMinutes, 15)
+            
+            Timber.tag("BackupScheduler").i("Scheduling backup at $backupTime")
+            Timber.tag("BackupScheduler").i("Current time: $now")
+            Timber.tag("BackupScheduler").i("Next backup: $nextBackup")
+            Timber.tag("BackupScheduler").i("Delay: $actualDelay minutes")
 
             val constraints = Constraints.Builder()
-                .setRequiresBatteryNotLow(true)
+                .setRequiresBatteryNotLow(false)  // Allow backup even when battery is low
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)  // Don't require network
+                .setRequiresDeviceIdle(false)  // Allow backup while device is in use
+                .setRequiresCharging(false)  // Don't require charging
                 .build()
+
+            // Cancel any existing work first
+            WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)
 
             val backupWorkRequest = PeriodicWorkRequestBuilder<AutoBackupWorker>(
                 1, TimeUnit.DAYS
             )
-                .setInitialDelay(initialDelay, TimeUnit.MINUTES)
+                .setInitialDelay(actualDelay, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .addTag(WORK_NAME)
                 .build()
@@ -58,7 +70,7 @@ object BackupScheduler {
                 backupWorkRequest
             )
             
-            Timber.tag("BackupScheduler").i("Backup scheduled successfully")
+            Timber.tag("BackupScheduler").i("Backup scheduled successfully with $actualDelay min delay")
         } catch (e: Exception) {
             Timber.tag("BackupScheduler").e(e, "Failed to schedule backup")
         }
@@ -80,5 +92,25 @@ object BackupScheduler {
             .getWorkInfosForUniqueWork(WORK_NAME)
             .get()
         return workInfos.isNotEmpty() && workInfos.any { !it.state.isFinished }
+    }
+
+    /**
+     * Get backup schedule status for debugging
+     */
+    fun getBackupStatus(context: Context): String {
+        return try {
+            val workInfos = WorkManager.getInstance(context)
+                .getWorkInfosForUniqueWork(WORK_NAME)
+                .get()
+            
+            if (workInfos.isEmpty()) {
+                "No backup scheduled"
+            } else {
+                val workInfo = workInfos.first()
+                "Backup status: ${workInfo.state}, Next run attempt: ${workInfo.nextScheduleTimeMillis}"
+            }
+        } catch (e: Exception) {
+            "Error getting backup status: ${e.message}"
+        }
     }
 }

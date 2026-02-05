@@ -116,6 +116,8 @@
     <string name="view_artist">View artist</string>
     <string name="view_album">View album</string>
     <string name="refetch">Refetch</string>
+    <string name="lyrics_refetch">Lyrics refetch</string>
+    <string name="lyrics_refresh">Lyrics refresh</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="remove_from_history">Remove from history</string>

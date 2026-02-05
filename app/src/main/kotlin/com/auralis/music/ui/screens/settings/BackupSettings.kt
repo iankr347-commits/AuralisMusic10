@@ -35,6 +35,7 @@ import com.auralis.music.utils.BackupScheduler
 import com.auralis.music.utils.rememberPreference
 import com.auralis.music.viewmodels.BackupRestoreViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,10 +81,16 @@ fun BackupSettings(
 
     // Update backup schedule when settings change
     LaunchedEffect(autoBackupEnabled, autoBackupTime) {
-        if (autoBackupEnabled) {
-            BackupScheduler.scheduleBackup(context, autoBackupTime)
-        } else {
-            BackupScheduler.cancelBackup(context)
+        try {
+            if (autoBackupEnabled) {
+                BackupScheduler.scheduleBackup(context, autoBackupTime)
+                Timber.tag("BackupSettings").i("Backup scheduled for $autoBackupTime")
+            } else {
+                BackupScheduler.cancelBackup(context)
+                Timber.tag("BackupSettings").i("Backup schedule cancelled")
+            }
+        } catch (e: Exception) {
+            Timber.tag("BackupSettings").e(e, "Failed to update backup schedule")
         }
     }
 
@@ -172,6 +179,19 @@ fun BackupSettings(
                                         .format(Date(lastAutoBackup))
                                 } else {
                                     stringResource(R.string.never)
+                                }
+                            )
+                        }
+                    ),
+                    Material3SettingsItem(
+                        icon = painterResource(R.drawable.info),
+                        title = { Text("Schedule Status") },
+                        description = {
+                            Text(
+                                if (autoBackupEnabled) {
+                                    BackupScheduler.getBackupStatus(context)
+                                } else {
+                                    "Auto backup disabled"
                                 }
                             )
                         }

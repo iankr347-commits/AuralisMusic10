@@ -63,20 +63,42 @@ class AutoBackupWorker @AssistedInject constructor(
 
             // Perform backup
             backupFile.outputStream().buffered().zipOutputStream().use { outputStream ->
-                // Backup settings
-                (applicationContext.filesDir / "datastore" / SETTINGS_FILENAME).inputStream().buffered()
-                    .use { inputStream ->
-                        outputStream.putNextEntry(ZipEntry(SETTINGS_FILENAME))
-                        inputStream.copyTo(outputStream)
+                try {
+                    // Backup settings
+                    val settingsFile = applicationContext.filesDir / "datastore" / SETTINGS_FILENAME
+                    if (settingsFile.exists()) {
+                        settingsFile.inputStream().buffered().use { inputStream ->
+                            outputStream.putNextEntry(ZipEntry(SETTINGS_FILENAME))
+                            inputStream.copyTo(outputStream)
+                        }
+                        Timber.tag("AutoBackup").i("Settings backed up successfully")
+                    } else {
+                        Timber.tag("AutoBackup").w("Settings file not found, skipping settings backup")
                     }
 
-                // Backup database
-                runBlocking(Dispatchers.IO) {
-                    database.checkpoint()
-                }
-                FileInputStream(database.openHelper.writableDatabase.path).use { inputStream ->
-                    outputStream.putNextEntry(ZipEntry(InternalDatabase.DB_NAME))
-                    inputStream.copyTo(outputStream)
+                    // Backup database
+                    runBlocking(Dispatchers.IO) {
+                        database.checkpoint()
+                    }
+                    val dbPath = database.openHelper.writableDatabase.path
+                    val dbFile = File(dbPath)
+                    if (dbFile.exists()) {
+                        FileInputStream(dbPath).use { inputStream ->
+                            outputStream.putNextEntry(ZipEntry(InternalDatabase.DB_NAME))
+                            inputStream.copyTo(outputStream)
+                        }
+                        Timber.tag("AutoBackup").i("Database backed up successfully")
+                    } else {
+                        Timber.tag("AutoBackup").w("Database file not found at $dbPath")
+                        throw Exception("Database file not found")
+                    }
+                } catch (e: Exception) {
+                    Timber.tag("AutoBackup").e(e, "Error during backup file creation")
+                    // Delete incomplete backup file
+                    if (backupFile.exists()) {
+                        backupFile.delete()
+                    }
+                    throw e
                 }
             }
 

@@ -1,25 +1,21 @@
 <div align="center">
-  <img src="../assets/logo.png" alt="Auralis Music Logo" width="120" height="120">
+  <img src="assets/ic_launcher-playstore.png" alt="Auralis Music Logo" width="120" height="120">
   
   <h1>Auralis Music</h1>
   
   <p>A robust, open-source music streaming client offering an ad-free experience, offline capabilities, and advanced music discovery.</p>
   
-  <p>
-    <img src="https://img.shields.io/badge/Platform-Android-green?style=for-the-badge" alt="Platform" />
-    <img src="https://img.shields.io/badge/API-26%2B-blue?style=for-the-badge" alt="API" />
-    <img src="https://img.shields.io/badge/License-GPL--3.0-orange?style=for-the-badge" alt="License" />
-  </p>
   
-  <p>
-    <a href="../assets/download.png">
-      <img src="../assets/download.png" alt="Direct Download" width="200">
-    </a>
-    <a href="https://github.com/iankr347/AuralisMusic467">
-      <img src="../assets/github.png" alt="Available on GitHub" width="200">
-    </a>
-  </p>
-</div>
+  <p align="center">
+  <a href="https://auralismusic.vercel.app/index.html">
+    <img src="assets/buymeacoffee.png" alt="Direct Download" width="200">
+  </a>
+
+  <a href="https://github.com/iankr347/AuralisMusic467">
+    <img src="assets/XMR.png" alt="Available on GitHub" width="200">
+  </a>
+</p>
+
 
 ---
 
@@ -38,56 +34,42 @@ This project is still under active development. Some features may be incomplete 
 ## Features
 
 ### 🎵 Streaming and Playback
-- **High-Quality Audio**: Stream music in various bitrates up to 320kbps
-- **Background Playback**: Keep music playing even when the app is in the background
-- **Gapless Playback**: Seamless transitions between tracks
-- **Crossfade Support**: Smooth audio transitions between songs
-- **Audio Enhancement**: Built-in equalizer with presets and custom settings
-- **Sleep Timer**: Automatically stop playback after a set duration
+- High-quality audio streaming up to **320 kbps**
+- Background playback
+- Gapless playback
+- Crossfade support
+- Built-in equalizer (presets + custom)
+- Sleep timer
 
 ### 🎨 User Interface
-- **Material Design 3**: Modern, clean interface following Android's latest design guidelines
-- **Multiple Themes**: Light, Dark, and Pure Black (AMOLED) themes
-- **Customizable Home Screen**: Personalize your music experience
-- **Intuitive Navigation**: Easy-to-use interface with smooth animations
-- **Responsive Design**: Optimized for phones and tablets
+- Material Design 3 (Jetpack Compose)
+- Light, Dark, and AMOLED themes
+- Customizable home screen
+- Smooth animations and intuitive navigation
+- Phone & tablet optimized layouts
 
 ### 📚 Library Management
-- **Full Library Access**: Browse your entire music collection
-- **Smart Playlists**: Automatically generated playlists based on your listening habits
-- **Import/Export**: Support for various playlist formats
-- **Offline Mode**: Download songs for offline listening
-- **Metadata Editing**: Edit song information and album art
-- **Duplicate Detection**: Find and remove duplicate tracks
+- Full local & online library access
+- Smart playlists
+- Playlist import/export
+- Offline downloads
+- Metadata editing
+- Duplicate track detection
 
 ### 🔍 Discovery and Recommendations
-- **Advanced Search**: Find songs, albums, artists, and playlists
-- **Personalized Recommendations**: Discover new music based on your taste
-- **Trending Charts**: Stay updated with the latest hits
-- **Radio Stations**: Create custom radio stations based on your preferences
-- **Similar Artists**: Explore music from artists similar to your favorites
+- Advanced search
+- Personalized recommendations
+- Trending charts
+- Custom radio stations
+- Similar artist discovery
 
 ### ⚙️ Advanced Capabilities
-- **Last.fm Integration**: Scrobble your tracks to Last.fm
-- **Discord Rich Presence**: Show what you're listening to on Discord
-- **Lyrics Support**: Display synchronized lyrics for your favorite songs
-- **Podcast Support**: Listen to your favorite podcasts
-- **Cloud Sync**: Sync your library across multiple devices
-- **Proxy Support**: Use custom proxy settings for enhanced privacy
+- Last.fm scrobbling
+- Discord Rich Presence
+- Synchronized lyrics
+- Podcast support
+- Proxy support for privacy
 
----
-
-## Screenshots
-
-### Mobile
-
-<div align="center">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Home+Screen" alt="Home Screen" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Now+Playing" alt="Now Playing" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Search" alt="Search" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Library" alt="Library" width="180">
-  <img src="https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Settings" alt="Settings" width="180">
-</div>
 
 ---
 
@@ -160,12 +142,10 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) f
 ## Support
 
 - **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic467/issues)
-- **Discussions**: Join our community discussions on [GitHub Discussions](https://github.com/iankr347/AuralisMusic467/discussions)
-- **Wiki**: Check out our [Wiki](https://github.com/iankr347/AuralisMusic467/wiki) for detailed guides
 
 ---
 
 <div align="center">
   <p>Made with ❤️ for music lovers</p>
-  <p>© 2024 Auralis Music. All rights reserved.</p>
+  <p>© 2025 Auralis Music. All rights reserved.</p>
 </div>

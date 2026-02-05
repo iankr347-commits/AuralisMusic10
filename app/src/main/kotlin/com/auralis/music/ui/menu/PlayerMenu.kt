@@ -88,6 +88,7 @@ import com.auralis.music.ui.component.NewAction
 import com.auralis.music.ui.component.Material3SettingsGroup
 import com.auralis.music.ui.component.Material3SettingsItem
 import com.auralis.music.ui.component.NewActionGrid
+import com.auralis.music.db.entities.LyricsEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.log2
@@ -436,6 +437,26 @@ fun PlayerMenu(
                             } else {
                                 showSleepTimerDialog = true
                             }
+                        }
+                    ),
+                    NewAction(
+                        icon = {
+                            Icon(
+                                painter = painterResource(R.drawable.sync),
+                                contentDescription = null,
+                                modifier = Modifier.size(28.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
+                        text = stringResource(R.string.lyrics_refresh),
+                        onClick = {
+                            coroutineScope.launch(Dispatchers.IO) {
+                                database.query {
+                                    delete(LyricsEntity(id = mediaMetadata.id, lyrics = ""))
+                                }
+                            }
+                            Toast.makeText(context, context.getString(R.string.lyrics_refresh), Toast.LENGTH_SHORT).show()
+                            onDismiss()
                         }
                     )
                 ),
