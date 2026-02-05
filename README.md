@@ -1,151 +1,131 @@
 <div align="center">
-  <img src="assets/ic_launcher-playstore.png" alt="Auralis Music Logo" width="120" height="120">
-  
+  <img src="assets/logo.png" alt="Auralis Music" width="140"/>
   <h1>Auralis Music</h1>
-  
-  <p>A robust, open-source music streaming client offering an ad-free experience, offline capabilities, and advanced music discovery.</p>
-  
-  
-  <p align="center">
-  <a href="https://auralismusic.vercel.app/index.html">
-    <img src="assets/buymeacoffee.png" alt="Direct Download" width="200">
-  </a>
+  <p><strong>A modern music streaming app with adfree experience, synced lyrics, and offline playback.</strong></p>
 
-  <a href="https://github.com/iankr347/AuralisMusic467">
-    <img src="assets/XMR.png" alt="Available on GitHub" width="200">
-  </a>
-</p>
-
+  <a href="https://auralismusic.vercel.app/"><img src="assets/download.png" alt="Download" width="200"/></a>
+  <br>
+  <a href="https://github.com/iankr347-commits/AuralisMusic10/releases"><img src="assets/github.png" alt="Releases" width="160"/></a>
+</div>
 
 ---
 
 ## Overview
 
-Auralis Music is a feature-rich music streaming application designed for Android devices. Built with a focus on user experience and performance, it provides seamless access to millions of songs while maintaining a clean, intuitive interface. Whether you're a casual listener or a music enthusiast, Auralis Music offers the tools you need to enjoy your favorite tracks without interruptions.
+Auralis Music is designed to provide a seamless and premium music listening experience. It leverages the vast library of YouTube Music while eliminating advertisements and adding powerful features such as offline downloads, real-time lyrics, and environment-aware music recognition.
 
----
+## Screenshots
 
-## Important
+### Mobile
+<div align="center">
+  <img src="assets/sh1.jpg" alt="Home Screen" width="200"/>
+  <img src="assets/sh4.jpg" alt="Music Player" width="200"/>
+  <img src="assets/sh3.jpg" alt="Playlist Management" width="200"/>
+  <img src="assets/sh2.jpg" alt="find" width="200"/>
+</div>
 
-This project is still under active development. Some features may be incomplete or contain bugs. Please report any issues you encounter on our GitHub repository.
-
----
 
 ## Features
 
-### 🎵 Streaming and Playback
-- High-quality audio streaming up to **320 kbps**
-- Background playback
-- Gapless playback
-- Crossfade support
-- Built-in equalizer (presets + custom)
-- Sleep timer
+### Streaming and Playback
+*   **Ad-Free Experience:** Stream music without interruptions from advertisements.
+*   **seamless Playback:** seamless songs Playback.
+*   **Background Playback:** Continue listening while using other applications or when the screen is off.
+*   **Offline Mode:** Download tracks, albums, and playlists for offline listening with a dedicated download manager.
 
-### 🎨 User Interface
-- Material Design 3 (Jetpack Compose)
-- Light, Dark, and AMOLED themes
-- Customizable home screen
-- Smooth animations and intuitive navigation
-- Phone & tablet optimized layouts
+### Discovery
+*   **Smart Recommendations:** Receive personalized song suggestions based on your listening history and preferences whit ai mode(beta).
+*   **Comprehensive Browsing:** Explore Charts, Podcasts, Moods, and Genres to discover new music.
 
-### 📚 Library Management
-- Full local & online library access
-- Smart playlists
-- Playlist import/export
-- Offline downloads
-- Metadata editing
-- Duplicate track detection
+### Advanced Capabilities
+*   **Synchronized Lyrics:** View real-time synced lyrics.
+*   **Sleep Timer:** Configure automatic playback cessation after a specified duration.
+*   **Cross-Device Support:** Cast content to Chromecast-enabled devices compatible network speakers and TVs.
+*   **Data Import:** Import playlists and library data from other services.
+  
+---
 
-### 🔍 Discovery and Recommendations
-- Advanced search
-- Personalized recommendations
-- Trending charts
-- Custom radio stations
-- Similar artist discovery
-
-### ⚙️ Advanced Capabilities
-- Last.fm scrobbling
-- Discord Rich Presence
-- Synchronized lyrics
-- Podcast support
-- Proxy support for privacy
-
+### Important note
+* Auralis Music uses Firebase only for essential services such as Analytics, Crashlytics, and App Remote Updates. Auralis does not collect or store any personal information, including phone numbers, email addresses, photos, media files, or personal contacts.
 
 ---
 
 ## Installation
 
-### Direct Download (APK)
+### Option 1: Direct Download (APK)
+Download the latest Android Package Kit (APK) from the [Releases Page](https://github.com/iankr347-commits/AuralisMusic10/releases/latest).
 
-1. Download the latest APK from our [Releases Page](https://github.com/iankr347/AuralisMusic467/releases)
-2. Enable "Install from unknown sources" in your device settings
-3. Locate and install the downloaded APK file
-4. Launch Auralis Music and enjoy!
+### Option 2: Build from Source
+To build the application locally, follow these steps:
 
-### Build from Source
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/iankr347-commits/AuralisMusic10.git
+    cd Auralismusic10
+    ```
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/iankr347/AuralisMusic467.git
-   cd AuralisMusic467
-   ```
+2.  **Configure Android SDK**
+    Create a `local.properties` file and define your SDK path:
+    ```bash
+     AuralisMusic "sdk.dir=/path/to/your/android/sdk" > local.properties
+    ```
 
-2. **Configure Android SDK**
-   Create a `local.properties` file in the project root and define your Android SDK path:
-   ```bash
-   echo "sdk.dir=/path/to/your/android/sdk" > local.properties
-   ```
+3.  **Firebase Configuration**
+    Firebase setup is required for analytics and reliable imports. Please refer to [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for detailed instructions on adding your `google-services.json`.
 
-3. **Firebase Configuration**
-   - Firebase setup is required for certain features
-   - Follow the instructions in `FIREBASE_SETUP.md` to add your `google-services.json`
-   - This step is optional for basic functionality
+4.  **Build**
+    Execute the Gradle build command:
+    ```bash
+    ./gradlew assembleFossDebug
+    ```
 
-4. **Build**
-   ```bash
-   ./gradlew assembleFossDebug
-   ```
 
-   The APK will be generated in `app/build/outputs/apk/foss/debug/`
+---
+---
+
+## Developer Contribution Guidelines
+Thank you for your interest in contributing!
+This repository follows a strict, staged branch workflow to maintain stability while allowing controlled development and testing.
+
+ Please read this document fully before opening a pull request.
+
+ Direct commits to main are not allowed. Use feature or fix branches only.
+
+ Every change must go through a Pull Request and review.
+
+ Follow existing code style, structure, and architecture. Do not improvise.
+
+ Do not break existing features, refactor large sections, or add dependencies without approval.
+
+ No untested, unfinished, or experimental code.
+
+ Secrets, keys, and credentials must never be committed.
+
+ One feature or fix per PR. Keep changes small and clear.
+
+ Update documentation if behavior or features change.
+
+ The project owner has final authority on all decisions.
+
+ (If you don’t agree with these rules, do not contribute)
+
+---
+---
+## Disclaimer
+
+This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any way associated with YouTube, Google LLC, or any of its affiliates and subsidiaries. Any trademark, service mark, trade name, or other intellectual property rights used in this project are owned by the respective owners.
+
+Auralis music is an open-source project created for educational and personal use. Users are responsible for ensuring their usage complies with YouTube's Terms of Service and applicable laws in their jurisdiction.
 
 ---
 
-## Requirements
+## Star History
 
-- **Android Version**: 8.0 (API level 26) or higher
-- **Storage**: Minimum 100MB free space for app and cache
-- **Network**: Internet connection required for streaming
-- **RAM**: Minimum 2GB RAM recommended for optimal performance
-
----
-
-## Contributing
-
-We welcome contributions from the community! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) for more details.
-
----
-
-## License
-
-This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Support
-
-- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/iankr347/AuralisMusic467/issues)
+[![Star History Chart](https://api.star-history.com/svg?repos=iankr347-commits/AuralisMusic10&type=date&legend=top-left)](https://www.star-history.com/#iankr347-commits/AuralisMusic10&type=date&legend=top-left)
 
 ---
 
 <div align="center">
-  <p>Made with ❤️ for music lovers</p>
-  <p>© 2025 Auralis Music. All rights reserved.</p>
+    Licensed under <a href="LICENSE">GPL-3.0</a>
 </div>
+
