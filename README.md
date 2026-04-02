@@ -117,6 +117,8 @@ This project and its contents are not affiliated with, funded, authorized, endor
 
 Auralis music is an open-source project created for educational and personal use. Users are responsible for ensuring their usage complies with YouTube's Terms of Service and applicable laws in their jurisdiction.
 
+This project does not host, store, or distribute any copyrighted content.
+
 This project is built for educational purposes to explore music streaming systems, API integration, and modern Android app architecture. It is not intended for commercial use.
 
 ---
