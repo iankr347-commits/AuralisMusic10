@@ -188,7 +188,7 @@ fun AboutScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             OutlinedButton(
-                onClick = { uriHandler.openUri("https://auralismusic.vercel.app") },
+                onClick = { uriHandler.openUri("https://auralisaudio.vercel.app/") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
             ) {
@@ -202,7 +202,7 @@ fun AboutScreen(
             }
 
             OutlinedButton(
-                onClick = { uriHandler.openUri("https://auralismusic.vercel.app/privacy.html") },
+                onClick = { uriHandler.openUri("https://auralisaudio.vercel.app/privacy.html") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
             ) {
@@ -216,7 +216,7 @@ fun AboutScreen(
             }
             
             OutlinedButton(
-                onClick = { uriHandler.openUri("https://auralismusic.vercel.app/terms.html") },
+                onClick = { uriHandler.openUri("https://auralisaudio.vercel.app/terms.html") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
             ) {
@@ -230,7 +230,7 @@ fun AboutScreen(
             }
 
             OutlinedButton(
-                onClick = { uriHandler.openUri("https://auralismusic.vercel.app/contact.html") },
+                onClick = { uriHandler.openUri("https://auralisaudio.vercel.app/contact.html") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
             ) {
