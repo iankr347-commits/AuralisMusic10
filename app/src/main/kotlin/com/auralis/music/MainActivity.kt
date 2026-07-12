@@ -1021,6 +1021,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleDeepLinkIntent(intent: Intent, navController: NavHostController) {
+        if (intent.action == ACTION_RECOGNITION) {
+            val autoStart = intent.getBooleanExtra(EXTRA_AUTO_START_RECOGNITION, false)
+            navController.navigate("recognition?autoStart=$autoStart")
+            return
+        }
         val uri = intent.data ?: intent.extras?.getString(Intent.EXTRA_TEXT)?.toUri() ?: return
         intent.data = null
         intent.removeExtra(Intent.EXTRA_TEXT)
@@ -1121,6 +1126,8 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val ACTION_SEARCH = "com.auralis.music.action.SEARCH"
         const val ACTION_LIBRARY = "com.auralis.music.action.LIBRARY"
+        const val ACTION_RECOGNITION = "com.auralis.music.action.RECOGNITION"
+        const val EXTRA_AUTO_START_RECOGNITION = "extra_auto_start_recognition"
     }
 }
 

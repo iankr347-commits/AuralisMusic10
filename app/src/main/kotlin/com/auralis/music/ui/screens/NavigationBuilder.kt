@@ -72,8 +72,14 @@ import com.auralis.music.ui.screens.settings.RomanizationSettings
 import com.auralis.music.ui.screens.settings.SettingsScreen
 import com.auralis.music.ui.screens.settings.StorageSettings
 import com.auralis.music.ui.screens.settings.GeoRecommendationsSettings
+import com.auralis.music.ui.screens.settings.SpotifyImportScreen
+import com.auralis.music.ui.screens.settings.AILyricsTranslationScreen
 import com.auralis.music.ui.screens.wrapped.WrappedScreen
+import com.auralis.music.ui.screens.wrapped.WrappedScreen
+import com.auralis.music.ui.screens.recognition.RecognitionScreen
+import com.auralis.music.ui.screens.recognition.RecognitionHistoryScreen
 import com.auralis.music.ui.utils.ShowMediaInfo
+
 import com.auralis.music.utils.rememberEnumPreference
 import com.auralis.music.utils.rememberPreference
 import android.app.Activity
@@ -335,6 +341,12 @@ fun NavGraphBuilder.navigationBuilder(
     composable("settings/integrations") {
         IntegrationScreen(navController, scrollBehavior)
     }
+    composable("settings/spotify_import") {
+        SpotifyImportScreen(navController)
+    }
+    composable("settings/ai_translation") {
+        AILyricsTranslationScreen(navController, scrollBehavior)
+    }
     composable("settings/about") {
         AboutScreen(navController, scrollBehavior)
     }
@@ -343,5 +355,20 @@ fun NavGraphBuilder.navigationBuilder(
     }
     composable("wrapped") {
         WrappedScreen(navController)
+    }
+    composable(
+        route = "recognition?autoStart={autoStart}",
+        arguments = listOf(
+            navArgument("autoStart") {
+                type = NavType.BoolType
+                defaultValue = false
+            }
+        )
+    ) { backStackEntry ->
+        val autoStart = backStackEntry.arguments?.getBoolean("autoStart") ?: false
+        RecognitionScreen(navController, autoStart = autoStart)
+    }
+    composable("recognition_history") {
+        RecognitionHistoryScreen(navController)
     }
 }

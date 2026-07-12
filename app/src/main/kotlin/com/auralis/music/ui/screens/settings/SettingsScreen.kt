@@ -137,6 +137,25 @@ fun SettingsScreen(
         )
         
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Extra Features Section
+        Material3SettingsGroup(
+            title = "Extra Features",
+            items = listOf(
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.translate),
+                    title = { Text("AI Lyrics Translation") },
+                    onClick = { navController.navigate("settings/ai_translation") }
+                ),
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.ic_spotify),
+                    title = { Text("Import from Spotify") },
+                    onClick = { navController.navigate("settings/spotify_import") }
+                )
+            )
+        )
+        
+        Spacer(modifier = Modifier.height(16.dp))
         
         // System & About Section
         Material3SettingsGroup(
@@ -188,7 +207,7 @@ fun SettingsScreen(
                 }
                 add(
                     Material3SettingsItem(
-                        icon = painterResource(R.drawable.info),
+                        icon = painterResource(R.drawable.refresh),
                         title = { Text(stringResource(R.string.updater)) },
                         description = { Text("Version: ${BuildConfig.VERSION_NAME}") },
                         trailingContent = {

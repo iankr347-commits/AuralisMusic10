@@ -62,7 +62,9 @@ import kotlinx.coroutines.launch
 import java.text.Collator
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import com.auralis.music.db.entities.RecognitionHistory
 import java.util.Locale
+
 
 @Dao
 interface DatabaseDao {
@@ -72,6 +74,31 @@ interface DatabaseDao {
 
         @Query("SELECT * FROM library_history ORDER BY timestamp DESC")
         fun getLibraryHistory(): kotlinx.coroutines.flow.Flow<List<com.auralis.music.db.entities.LibraryHistoryEntity>>
+
+        // --- Recognition History ---
+        @Transaction
+        @Query("SELECT * FROM recognition_history ORDER BY recognizedAt DESC")
+        fun recognitionHistory(): Flow<List<RecognitionHistory>>
+
+        @Transaction
+        @Query("SELECT * FROM recognition_history WHERE id = :id")
+        fun recognitionHistory(id: Long): Flow<RecognitionHistory?>
+
+        @Transaction
+        @Query("SELECT * FROM recognition_history WHERE title LIKE '%' || :query || '%' OR artist LIKE '%' || :query || '%' ORDER BY recognizedAt DESC")
+        fun recognitionHistory(query: String): Flow<List<RecognitionHistory>>
+
+        @Query("DELETE FROM recognition_history")
+        suspend fun clearRecognitionHistory()
+
+        @Query("DELETE FROM recognition_history WHERE id = :id")
+        suspend fun deleteRecognitionHistory(id: Long)
+
+        @Query("UPDATE recognition_history SET liked = :liked WHERE id = :id")
+        suspend fun updateRecognitionHistoryLiked(id: Long, liked: Boolean)
+
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insert(recognitionHistory: RecognitionHistory): Long
     @Transaction
     @Query("SELECT * FROM song WHERE inLibrary IS NOT NULL ORDER BY rowId")
     fun songsByRowIdAsc(): Flow<List<Song>>

@@ -152,6 +152,17 @@ fun SearchScreen(
                         )
                         
                         Row {
+                            if (query.text.isEmpty()) {
+                                IconButton(
+                                    onClick = { navController.navigate("recognition") }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.mic),
+                                        contentDescription = "Search by sound",
+                                        tint = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            }
                             if (query.text.isNotEmpty()) {
                                 IconButton(onClick = { query = TextFieldValue("") }) {
                                     Icon(

@@ -34,9 +34,12 @@ import com.auralis.music.db.entities.SetVideoIdEntity
 import com.auralis.music.db.entities.SongAlbumMap
 import com.auralis.music.db.entities.SongArtistMap
 import com.auralis.music.db.entities.SongEntity
+import com.auralis.music.db.entities.RecognitionHistory
 import com.auralis.music.db.entities.SortedSongAlbumMap
+
 import com.auralis.music.db.entities.SortedSongArtistMap
 import com.auralis.music.extensions.toSQLiteQuery
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -48,18 +51,22 @@ class MusicDatabase(
     val openHelper: SupportSQLiteOpenHelper
         get() = delegate.openHelper
 
-    fun query(block: MusicDatabase.() -> Unit) =
+    fun query(block: suspend MusicDatabase.() -> Unit) =
         with(delegate) {
             queryExecutor.execute {
-                block(this@MusicDatabase)
+                runBlocking {
+                    block(this@MusicDatabase)
+                }
             }
         }
 
-    fun transaction(block: MusicDatabase.() -> Unit) =
+    fun transaction(block: suspend MusicDatabase.() -> Unit) =
         with(delegate) {
             transactionExecutor.execute {
                 runInTransaction {
-                    block(this@MusicDatabase)
+                    runBlocking {
+                        block(this@MusicDatabase)
+                    }
                 }
             }
         }
@@ -84,14 +91,15 @@ class MusicDatabase(
         RelatedSongMap::class,
         SetVideoIdEntity::class,
         PlayCountEntity::class,
-        com.auralis.music.db.entities.LibraryHistoryEntity::class
+        com.auralis.music.db.entities.LibraryHistoryEntity::class,
+        RecognitionHistory::class
     ],
     views = [
         SortedSongArtistMap::class,
         SortedSongAlbumMap::class,
         PlaylistSongMapPreview::class,
     ],
-    version = 27,
+    version = 28,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -118,7 +126,8 @@ class MusicDatabase(
         AutoMigration(from = 23, to = 24, spec = Migration23To24::class),
         AutoMigration(from = 24, to = 25),
         AutoMigration(from = 25, to = 26),
-        AutoMigration(from = 26, to = 27)
+        AutoMigration(from = 26, to = 27),
+        AutoMigration(from = 27, to = 28)
     ],
 )
 @TypeConverters(Converters::class)

@@ -6,6 +6,10 @@ package com.auralis.music.playback
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.drawable.toBitmap
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -1661,6 +1665,27 @@ class MusicService :
         return super.onStartCommand(intent, flags, startId)
     }
 
+    // --- HELPER FUNCTION TO CREATE CIRCULAR BITMAP ---
+    private fun getCircularBitmap(bitmap: Bitmap): Bitmap {
+        val size = Math.min(bitmap.width, bitmap.height)
+        val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+        
+        val paint = Paint()
+        paint.isAntiAlias = true
+        
+        val radius = size / 2f
+        canvas.drawCircle(radius, radius, radius, paint)
+        
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        
+        val left = ((bitmap.width - size) / 2f)
+        val top = ((bitmap.height - size) / 2f)
+        canvas.drawBitmap(bitmap, -left, -top, paint)
+        
+        return output
+    }
+
     // --- WIDGET UPDATE HELPER ---
     private fun updateWidgetUI(isPlaying: Boolean) {
         val context = this
@@ -1669,21 +1694,23 @@ class MusicService :
         if (ids.isEmpty()) return
 
         scope.launch(Dispatchers.IO) {
-            val song = currentSong.value?.song
-            val songTitle = song?.title ?: "No Song Playing"
+            val song = currentSong.value
+            val songTitle = song?.song?.title ?: "No Song Playing"
+            val artistName = song?.artists?.joinToString { it.name } ?: "Unknown Artist"
 
             val views = RemoteViews(packageName, R.layout.widget_hello)
             views.setTextViewText(R.id.txt_song_title, songTitle)
+            views.setTextViewText(R.id.txt_artist_name, artistName)
 
             val playIcon = if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
             views.setImageViewResource(R.id.btn_play, playIcon)
 
             // --- COIL 3 IMAGE LOADING (SAFE MODE) ---
-            if (song?.thumbnailUrl != null) {
+            if (song?.song?.thumbnailUrl != null) {
                 try {
                     val loader = ImageLoader(context)
                     val request = ImageRequest.Builder(context)
-                        .data(song.thumbnailUrl)
+                        .data(song.song.thumbnailUrl)
                         .size(300, 300)
                         .build()
 
@@ -1696,7 +1723,8 @@ class MusicService :
                         } else {
                             originalBitmap
                         }
-                        views.setImageViewBitmap(R.id.img_album_art, safeBitmap)
+                        val circularBitmap = getCircularBitmap(safeBitmap)
+                        views.setImageViewBitmap(R.id.img_album_art, circularBitmap)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

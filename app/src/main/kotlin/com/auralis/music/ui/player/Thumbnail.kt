@@ -49,7 +49,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -64,10 +66,17 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import coil3.compose.AsyncImage
 import androidx.compose.material3.Icon
+import dagger.hilt.android.EntryPointAccessors
+import com.auralis.music.canvas.CanvasEntryPoint
+import com.auralis.music.canvas.CanvasState
+import com.auralis.music.canvas.CanvasPlayerView
 import com.auralis.music.LocalPlayerConnection
 import com.auralis.music.R
 import com.auralis.music.constants.PlayerBackgroundStyle
@@ -84,12 +93,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Thumbnail(
     sliderPositionProvider: () -> Long?,
     modifier: Modifier = Modifier,
-    isPlayerExpanded: Boolean = true, // Add parameter to control swipe based on player state
+    isPlayerExpanded: Boolean = true,
+    hideArtwork: Boolean = false
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
     val context = LocalContext.current
@@ -100,6 +111,7 @@ fun Thumbnail(
     val mediaMetadata by playerConnection.mediaMetadata.collectAsState()
     val error by playerConnection.error.collectAsState()
     val queueTitle by playerConnection.queueTitle.collectAsState()
+
 
     val swipeThumbnail by rememberPreference(SwipeThumbnailKey, true)
     val hidePlayerThumbnail by rememberPreference(HidePlayerThumbnailKey, false)
@@ -347,10 +359,17 @@ fun Thumbnail(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
+                                val artworkAlpha by androidx.compose.animation.core.animateFloatAsState(
+                                    targetValue = if (hideArtwork && item == currentMediaItem) 0f else 1f,
+                                    animationSpec = androidx.compose.animation.core.tween(400),
+                                    label = "artworkAlpha"
+                                )
+                                
                                 Box(
                                     modifier = Modifier
                                         .size(containerMaxWidth - (PlayerHorizontalPadding * 2))
                                         .clip(RoundedCornerShape(ThumbnailCornerRadius * 2))
+                                        .alpha(artworkAlpha)
                                 ) {
                                     if (hidePlayerThumbnail) {
                                         // Show app logo when thumbnail is hidden
@@ -378,6 +397,7 @@ fun Thumbnail(
                                         AsyncImage(
                                             model = coil3.request.ImageRequest.Builder(LocalContext.current)
                                                 .data(item.mediaMetadata.artworkUri?.toString())
+                                                .size(1080, 1080)
                                                 .memoryCachePolicy(coil3.request.CachePolicy.ENABLED)
                                                 .diskCachePolicy(coil3.request.CachePolicy.ENABLED)
                                                 .networkCachePolicy(coil3.request.CachePolicy.ENABLED)
@@ -387,6 +407,8 @@ fun Thumbnail(
                                             modifier = Modifier.fillMaxSize()
                                         )
                                     }
+
+
                                 }
                             }
                         }

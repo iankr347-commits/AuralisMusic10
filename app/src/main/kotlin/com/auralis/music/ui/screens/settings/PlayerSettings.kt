@@ -41,6 +41,7 @@ import com.auralis.music.constants.AutoDownloadOnLikeKey
 import com.auralis.music.constants.AutoLoadMoreKey
 import com.auralis.music.constants.DisableLoadMoreWhenRepeatAllKey
 import com.auralis.music.constants.AutoSkipNextOnErrorKey
+import com.auralis.music.constants.CanvasEnabledKey
 import com.auralis.music.constants.EnableGoogleCastKey
 import com.auralis.music.constants.ShufflePlaylistFirstKey
 import com.auralis.music.constants.PersistentQueueKey
@@ -128,6 +129,10 @@ fun PlayerSettings(
         HistoryDuration,
         defaultValue = 30f
     )
+    val (canvasEnabled, onCanvasEnabledChange) = rememberPreference(
+        CanvasEnabledKey,
+        defaultValue = true
+    )
 
     var showAudioQualityDialog by remember {
         mutableStateOf(false)
@@ -171,6 +176,41 @@ fun PlayerSettings(
             )
         )
 
+        // ----------------------------------------------------------------
+        // Canvas
+        // ----------------------------------------------------------------
+        Material3SettingsGroup(
+            title = stringResource(R.string.canvas),
+            items = listOf(
+                Material3SettingsItem(
+                    icon = painterResource(R.drawable.play),
+                    title = { Text(stringResource(R.string.canvas_enabled)) },
+                    description = { Text(stringResource(R.string.canvas_enabled_description)) },
+                    trailingContent = {
+                        Switch(
+                            checked = canvasEnabled,
+                            onCheckedChange = onCanvasEnabledChange,
+                            thumbContent = {
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (canvasEnabled) R.drawable.check else R.drawable.close
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize)
+                                )
+                            }
+                        )
+                    },
+                    onClick = { onCanvasEnabledChange(!canvasEnabled) }
+                )
+            )
+        )
+
+        Spacer(modifier = Modifier.height(27.dp))
+
+        // ----------------------------------------------------------------
+        // Player & Audio
+        // ----------------------------------------------------------------
         Material3SettingsGroup(
             title = stringResource(R.string.player),
             items = buildList {

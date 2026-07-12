@@ -349,7 +349,7 @@ fun PlayerMenu(
     ) {
         item {
             NewActionGrid(
-                actions = listOf(
+                actions = listOfNotNull(
                     NewAction(
                         icon = {
                             Icon(
@@ -458,7 +458,7 @@ fun PlayerMenu(
                             Toast.makeText(context, context.getString(R.string.lyrics_refresh), Toast.LENGTH_SHORT).show()
                             onDismiss()
                         }
-                    )
+                    ),
                 ),
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)
             )

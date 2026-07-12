@@ -95,6 +95,11 @@ class BackupRestoreViewModel @Inject constructor(
                                     runBlocking(Dispatchers.IO) { database.checkpoint() }
                                     database.close()
                                     Timber.tag("RESTORE").i("Overwriting DB at path: $dbPath")
+                                    
+                                    // Delete WAL and SHM files to prevent corruption
+                                    java.io.File("$dbPath-wal").delete()
+                                    java.io.File("$dbPath-shm").delete()
+                                    
                                     FileOutputStream(dbPath).use { outputStream ->
                                         inputStream.copyTo(outputStream)
                                     }

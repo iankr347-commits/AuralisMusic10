@@ -25,8 +25,11 @@ val SwipeToRemoveSongKey = booleanPreferencesKey("SwipeToRemoveSong")
 val UseNewPlayerDesignKey= booleanPreferencesKey("useNewPlayerDesign")
 val UseNewMiniPlayerDesignKey = booleanPreferencesKey("useNewMiniPlayerDesign")
 val HidePlayerThumbnailKey = booleanPreferencesKey("hidePlayerThumbnail")
+val MinimalPlayerEnabledKey = booleanPreferencesKey("minimalPlayerEnabled")
+val MinimalPlayerHeight = intPreferencesKey("minimalPlayerHeight")
 val SeekExtraSeconds = booleanPreferencesKey("seekExtraSeconds")
 val DeveloperModeKey = booleanPreferencesKey("developerMode")
+val CanvasEnabledKey = booleanPreferencesKey("canvasEnabled")
 
 enum class SliderStyle {
     DEFAULT,
@@ -353,6 +356,15 @@ val AccountNameKey = stringPreferencesKey("accountName")
 val AccountEmailKey = stringPreferencesKey("accountEmail")
 val AccountChannelHandleKey = stringPreferencesKey("accountChannelHandle")
 val UseLoginForBrowse = booleanPreferencesKey("useLoginForBrowse")
+
+val OpenRouterApiKey = stringPreferencesKey("openRouterApiKey")
+val AiProviderKey = stringPreferencesKey("aiProvider")
+val OpenRouterBaseUrlKey = stringPreferencesKey("openRouterBaseUrl")
+val OpenRouterModelKey = stringPreferencesKey("openRouterModel")
+val AutoTranslateLyricsKey = booleanPreferencesKey("autoTranslateLyrics")
+val AutoTranslateLyricsMismatchKey = booleanPreferencesKey("autoTranslateLyricsMismatch")
+val TranslateModeKey = stringPreferencesKey("translateMode")
+val TranslateLanguageKey = stringPreferencesKey("translateLanguage")
 
 val LanguageCodeToName =
     mapOf(

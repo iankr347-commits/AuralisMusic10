@@ -129,8 +129,13 @@ import com.auralis.music.LocalDatabase
 import com.auralis.music.LocalDownloadUtil
 import com.auralis.music.LocalPlayerConnection
 import com.auralis.music.R
+import com.auralis.music.canvas.CanvasEntryPoint
+import com.auralis.music.canvas.CanvasPlayerView
+import com.auralis.music.canvas.CanvasState
 import com.auralis.music.constants.DarkModeKey
 import com.auralis.music.constants.PlayerBackgroundStyle
+import androidx.compose.ui.input.pointer.changedToUp
+import androidx.compose.ui.input.pointer.PointerEventPass
 import com.auralis.music.constants.PlayerBackgroundStyleKey
 import com.auralis.music.constants.PlayerButtonsStyle
 import com.auralis.music.constants.PlayerButtonsStyleKey
@@ -194,10 +199,56 @@ fun BottomSheetPlayer(
         defaultValue = true
     )
     val (hidePlayerThumbnail, onHidePlayerThumbnailChange) = rememberPreference(HidePlayerThumbnailKey, false)
-    val playerBackground by rememberEnumPreference(
+    val playerBackgroundPref by rememberEnumPreference(
         key = PlayerBackgroundStyleKey,
         defaultValue = PlayerBackgroundStyle.DEFAULT
     )
+
+    val canvasManager = remember {
+        EntryPointAccessors.fromApplication(
+            context.applicationContext,
+            com.auralis.music.canvas.CanvasEntryPoint::class.java
+        ).canvasManager()
+    }
+    val canvasState by canvasManager.state.collectAsState()
+    var canvasVideoReady by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.isExpanded) {
+        if (!state.isExpanded) {
+            canvasVideoReady = false
+        }
+    }
+
+    var lastInteractionTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
+    var isImmersiveMode by remember { mutableStateOf(false) }
+    val isCanvasActive = canvasState is com.auralis.music.canvas.CanvasState.Playing && canvasVideoReady
+
+    LaunchedEffect(isCanvasActive, lastInteractionTime, state.isExpanded) {
+        if (isCanvasActive && state.isExpanded) {
+            while (true) {
+                val timeSinceLast = System.currentTimeMillis() - lastInteractionTime
+                val delayTime = 30_000L - timeSinceLast
+                if (delayTime > 0) {
+                    isImmersiveMode = false
+                    delay(delayTime)
+                } else {
+                    isImmersiveMode = true
+                    break 
+                }
+            }
+        } else {
+            isImmersiveMode = false
+        }
+    }
+
+    val effectivePlayerBackground = if (isCanvasActive) {
+        PlayerBackgroundStyle.DEFAULT
+    } else {
+        playerBackgroundPref
+    }
+    // Rename to playerBackground so the rest of the file uses it
+    val playerBackground = effectivePlayerBackground
+
     val playerButtonsStyle by rememberEnumPreference(
         key = PlayerButtonsStyleKey,
         defaultValue = PlayerButtonsStyle.DEFAULT
@@ -258,6 +309,31 @@ fun BottomSheetPlayer(
     val canSkipNext by playerConnection.canSkipNext.collectAsState()
     val sliderStyle by rememberEnumPreference(SliderStyleKey, SliderStyle.DEFAULT)
     
+    val database = LocalDatabase.current
+    val coroutineScope = rememberCoroutineScope()
+    val currentLyrics by playerConnection.currentLyrics.collectAsState(initial = null)
+    
+    LaunchedEffect(mediaMetadata?.id, currentLyrics) {
+        if (mediaMetadata != null && currentLyrics == null) {
+            delay(500)
+            coroutineScope.launch(Dispatchers.IO) {
+                try {
+                    val entryPoint = EntryPointAccessors.fromApplication(
+                        context.applicationContext,
+                        com.auralis.music.di.LyricsHelperEntryPoint::class.java
+                    )
+                    val lyricsHelper = entryPoint.lyricsHelper()
+                    val fetchedLyrics = lyricsHelper.getLyrics(mediaMetadata!!)
+                    database.query {
+                        upsert(LyricsEntity(mediaMetadata!!.id, fetchedLyrics))
+                    }
+                } catch (e: Exception) {
+                    // Handle error
+                }
+            }
+        }
+    }
+
     // Cast state
     val castHandler = playerConnection.service.castConnectionHandler
     val isCasting by castHandler?.isCasting?.collectAsState() ?: remember { mutableStateOf(false) }
@@ -277,6 +353,8 @@ fun BottomSheetPlayer(
     var sliderPosition by remember {
         mutableStateOf<Long?>(null)
     }
+    
+    
     // Track when we last manually set position to avoid Cast overwriting it
     var lastManualSeekTime by remember { mutableStateOf(0L) }
     
@@ -284,6 +362,17 @@ fun BottomSheetPlayer(
         mutableStateOf<List<Color>>(emptyList())
     }
     val gradientColorsCache = remember { mutableMapOf<String, List<Color>>() }
+
+
+    LaunchedEffect(mediaMetadata?.id) {
+        val currentMetadata = mediaMetadata
+        if (currentMetadata != null) {
+            canvasVideoReady = false
+            val title = currentMetadata.title
+            val artist = currentMetadata.artists.joinToString { it.name }
+            canvasManager.onSongChanged(title, artist)
+        }
+    }
 
     if (!canSkipNext && automix.isNotEmpty()) {
         playerConnection.service.addToQueueAutomix(automix[0], 0)
@@ -576,13 +665,57 @@ fun BottomSheetPlayer(
 
     BottomSheet(
         state = state,
-        modifier = modifier,
+        modifier = if (isCanvasActive && state.isExpanded) {
+            modifier.pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent(PointerEventPass.Initial)
+                        if (event.changes.any { it.pressed || it.changedToUp() }) {
+                            lastInteractionTime = System.currentTimeMillis()
+                            if (isImmersiveMode) {
+                                isImmersiveMode = false
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            modifier
+        },
         background = {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(bottomSheetBackgroundColor)
             ) {
+                if (canvasState is CanvasState.Playing && !state.isCollapsed) {
+                    Box(modifier = Modifier.alpha(backgroundAlpha)) {
+                        CanvasPlayerView(
+                            url = (canvasState as CanvasState.Playing).url,
+                            modifier = Modifier.fillMaxSize(),
+                            onError = {
+                                canvasManager.onPlaybackError()
+                            },
+                            onVideoReady = { ready ->
+                                canvasVideoReady = ready
+                            },
+                            isPlaying = state.isExpanded
+                        )
+                        
+                        // Gradient overlay for readability when Canvas is playing
+                        val canvasGradientColorStops = arrayOf(
+                            0.0f to Color.Transparent,
+                            0.5f to Color.Black.copy(alpha = 0.3f),
+                            1.0f to Color.Black.copy(alpha = 0.8f)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Brush.verticalGradient(colorStops = canvasGradientColorStops))
+                        )
+                    }
+                }
+
                 when (playerBackground) {
                     PlayerBackgroundStyle.BLUR -> {
                         AnimatedContent(
@@ -1324,7 +1457,14 @@ fun BottomSheetPlayer(
             }
         }
 
-        when (LocalConfiguration.current.orientation) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = !isImmersiveMode,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                when (LocalConfiguration.current.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 val bottomPadding by animateDpAsState(
                     targetValue = if (isFullScreen) 0.dp else queueSheetState.collapsedBound + 48.dp,
@@ -1355,7 +1495,8 @@ fun BottomSheetPlayer(
                                 Thumbnail(
                                     sliderPositionProvider = { sliderPosition },
                                     modifier = Modifier.size(thumbnailSize),
-                                    isPlayerExpanded = state.isExpanded
+                                    isPlayerExpanded = state.isExpanded,
+                                    hideArtwork = canvasState is CanvasState.Playing && canvasVideoReady
                                 )
                             }
                         }
@@ -1401,7 +1542,8 @@ fun BottomSheetPlayer(
                                 Thumbnail(
                                     sliderPositionProvider = { sliderPosition },
                                     modifier = Modifier.nestedScroll(state.preUpPostDownNestedScrollConnection),
-                                    isPlayerExpanded = state.isExpanded
+                                    isPlayerExpanded = state.isExpanded,
+                                    hideArtwork = canvasState is CanvasState.Playing && canvasVideoReady
                                 )
                             }
                         }
@@ -1414,10 +1556,25 @@ fun BottomSheetPlayer(
                     Spacer(Modifier.height(48.dp))
                 }
             }
-        }
+                } // ends when
+            } // ends AnimatedVisibility
+            
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isImmersiveMode,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                ImmersiveBottomOverlay(
+                    mediaMetadata = mediaMetadata,
+                    position = position,
+                    duration = duration
+                )
+            }
+        } // ends Box
 
         AnimatedVisibility(
-            visible = !isFullScreen,
+            visible = !isFullScreen && !isImmersiveMode,
             enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
             exit = shrinkVertically(shrinkTowards = Alignment.Top) + slideOutVertically(targetOffsetY = { it }) + fadeOut()
         ) {
@@ -1452,30 +1609,6 @@ fun InlineLyricsView(mediaMetadata: MediaMetadata?, showLyrics: Boolean) {
     val playerConnection = LocalPlayerConnection.current ?: return
     val currentLyrics by playerConnection.currentLyrics.collectAsState(initial = null)
     val lyrics = remember(currentLyrics) { currentLyrics?.lyrics?.trim() }
-    val context = LocalContext.current
-    val database = LocalDatabase.current
-    val coroutineScope = rememberCoroutineScope()
-
-    LaunchedEffect(mediaMetadata?.id, currentLyrics) {
-        if (mediaMetadata != null && currentLyrics == null) {
-            delay(500)
-            coroutineScope.launch(Dispatchers.IO) {
-                try {
-                    val entryPoint = EntryPointAccessors.fromApplication(
-                        context.applicationContext,
-                        com.auralis.music.di.LyricsHelperEntryPoint::class.java
-                    )
-                    val lyricsHelper = entryPoint.lyricsHelper()
-                    val fetchedLyrics = lyricsHelper.getLyrics(mediaMetadata)
-                    database.query {
-                        upsert(LyricsEntity(mediaMetadata.id, fetchedLyrics))
-                    }
-                } catch (e: Exception) {
-                    // Handle error
-                }
-            }
-        }
-    }
 
     BoxWithConstraints(
         modifier = Modifier
@@ -1612,6 +1745,120 @@ private fun PlayerMoreMenuButton(
             painter = painterResource(R.drawable.more_horiz),
             contentDescription = null,
             colorFilter = ColorFilter.tint(iconButtonColor),
+        )
+    }
+}
+
+@Composable
+fun ImmersiveBottomOverlay(
+    mediaMetadata: MediaMetadata?,
+    position: Long,
+    duration: Long,
+    modifier: Modifier = Modifier
+) {
+    val playerConnection = LocalPlayerConnection.current ?: return
+    val currentLyrics by playerConnection.currentLyrics.collectAsState(initial = null)
+    val parsedLyrics = remember(currentLyrics) { currentLyrics?.lyrics?.let { parseLyrics(it) } }
+
+    var currentLyricText by remember { mutableStateOf("") }
+    LaunchedEffect(position, parsedLyrics) {
+        if (parsedLyrics != null && parsedLyrics.isNotEmpty()) {
+            val activeEntryIndex = parsedLyrics.indexOfLast { it.time <= position }
+            if (activeEntryIndex >= 0) {
+                currentLyricText = parsedLyrics[activeEntryIndex].text
+            } else {
+                currentLyricText = ""
+            }
+        } else {
+            currentLyricText = ""
+        }
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        // Sync Lyric Line
+        AnimatedContent(
+            targetState = currentLyricText,
+            transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
+            label = "immersiveLyric"
+        ) { text ->
+            if (text.isNotBlank()) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Start
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Artwork
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(mediaMetadata?.thumbnailUrl)
+                    .size(100, 100)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+            
+            Spacer(modifier = Modifier.width(12.dp))
+            
+            // Text
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = mediaMetadata?.title ?: "",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                )
+                Text(
+                    text = mediaMetadata?.artists?.joinToString { it.name } ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.7f),
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                )
+            }
+            
+            Spacer(modifier = Modifier.width(12.dp))
+            
+            // Timestamp
+            Text(
+                text = makeTimeString(position) + " / " + makeTimeString(duration),
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White.copy(alpha = 0.7f)
+            )
+        }
+        
+        // Progress Bar
+        Spacer(modifier = Modifier.height(16.dp))
+        val progress = if (duration > 0) (position.toFloat() / duration.toFloat()).coerceIn(0f, 1f) else 0f
+        androidx.compose.material3.LinearProgressIndicator(
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(3.dp)
+                .clip(RoundedCornerShape(1.5.dp)),
+            color = Color.White,
+            trackColor = Color.White.copy(alpha = 0.3f),
+            strokeCap = androidx.compose.ui.graphics.StrokeCap.Round
         )
     }
 }

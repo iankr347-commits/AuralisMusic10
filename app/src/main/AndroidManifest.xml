@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- Android TV -->
     <uses-feature android:name="android.software.leanback" android:required="false" />
@@ -33,6 +34,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Auralis"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="tiramisu">
         <uses-library
             android:name="org.apache.http.legacy"

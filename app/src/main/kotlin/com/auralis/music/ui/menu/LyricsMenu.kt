@@ -347,7 +347,7 @@ fun LyricsMenu(
     ) {
         item {
             NewActionGrid(
-                actions = listOf(
+                actions = listOfNotNull(
                     NewAction(
                         icon = {
                             Icon(
@@ -390,7 +390,7 @@ fun LyricsMenu(
                         onClick = {
                             showSearchDialog = true
                         }
-                    )
+                    ),
                 ),
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 16.dp)
             )

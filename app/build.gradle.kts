@@ -29,8 +29,8 @@ android {
         applicationId = "com.auralis.music"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "2.1.0"
+        versionCode = 3
+        versionName = "3.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -221,8 +221,10 @@ dependencies {
     implementation(libs.shimmer)
 
     implementation(libs.media3)
+    implementation(libs.media3.hls)
     implementation(libs.media3.session)
     implementation(libs.media3.okhttp)
+    implementation(libs.media3.ui)
     implementation(libs.squigglyslider)
 
     // Google Cast - only included in GMS flavor (not available in F-Droid/FOSS builds)
@@ -247,6 +249,7 @@ dependencies {
     implementation(project(":kugou"))
     implementation(project(":lrclib"))
     implementation(project(":betterlyrics"))
+    implementation(project(":shazamkit"))
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.serialization.json)
