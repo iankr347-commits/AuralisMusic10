@@ -29,18 +29,19 @@ object PlayerSliderColors {
     fun getSliderColors(
         activeColor: Color,
         playerBackground: PlayerBackgroundStyle,
-        useDarkTheme: Boolean
+        useDarkTheme: Boolean,
+        isCanvasActive: Boolean = false
     ): SliderColors {
-        val inactiveTrackColor = when (playerBackground) {
-            PlayerBackgroundStyle.DEFAULT -> {
+        val inactiveTrackColor = when {
+            isCanvasActive || playerBackground == PlayerBackgroundStyle.BLUR || playerBackground == PlayerBackgroundStyle.GRADIENT -> {
+                Color.White.copy(alpha = 0.4f)
+            }
+            else -> {
                 if (useDarkTheme) {
                     MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
                 } else {
                     MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                 }
-            }
-            PlayerBackgroundStyle.BLUR, PlayerBackgroundStyle.GRADIENT -> {
-                Color.White.copy(alpha = 0.4f)
             }
         }
         

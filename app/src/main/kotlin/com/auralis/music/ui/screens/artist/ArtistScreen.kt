@@ -46,6 +46,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -103,6 +105,7 @@ import com.auralis.music.ui.component.IconButton
 import com.auralis.music.ui.component.LocalMenuState
 import com.auralis.music.ui.component.NavigationTitle
 import com.auralis.music.ui.component.SongListItem
+import com.auralis.music.ui.component.VerifiedBadge
 import com.auralis.music.ui.component.YouTubeGridItem
 import com.auralis.music.ui.component.YouTubeListItem
 import com.auralis.music.ui.component.shimmer.ButtonPlaceholder
@@ -150,6 +153,7 @@ fun ArtistScreen(
     val lazyListState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
     var showLocal by rememberSaveable { mutableStateOf(false) }
+    var showVerifiedDetails by rememberSaveable { mutableStateOf(false) }
     val density = LocalDensity.current
 
     // Calculate the offset value outside of the offset lambda
@@ -320,8 +324,15 @@ fun ArtistScreen(
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     fontSize = 32.sp,
-                                    modifier = Modifier.padding(bottom = 16.dp)
+                                    modifier = Modifier.padding(bottom = if (viewModel.isArtistVerified == true) 4.dp else 16.dp)
                                 )
+                                // Show verification badge if artist is verified
+                                if (viewModel.isArtistVerified == true) {
+                                    VerifiedBadge(
+                                        modifier = Modifier.padding(bottom = 16.dp),
+                                        onClick = { showVerifiedDetails = true }
+                                    )
+                                }
 
                                 // Buttons Row
                                 Row(
@@ -840,4 +851,47 @@ fun ArtistScreen(
             TopAppBarDefaults.topAppBarColors()
         }
     )
+
+    if (showVerifiedDetails) {
+        ModalBottomSheet(
+            onDismissRequest = { showVerifiedDetails = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                Text(
+                    text = "Artist badges",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_verified_custom),
+                        contentDescription = "Verified",
+                        tint = Color(0xFF1DB954),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Verified by Auralis Music",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Text(
+                    text = "This artist has grown an active fanbase to be eligible for review and has met Auralis Music's criteria for profile authenticity. Learn more",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+        }
+    }
 }

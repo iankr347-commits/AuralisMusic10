@@ -132,6 +132,7 @@ inline fun ListItem(
     modifier: Modifier = Modifier,
     title: String,
     noinline subtitle: (@Composable RowScope.() -> Unit)? = null,
+    isVerified: Boolean = false,
     thumbnailContent: @Composable () -> Unit,
     trailingContent: @Composable RowScope.() -> Unit = {},
     isActive: Boolean = false
@@ -145,10 +146,22 @@ inline fun ListItem(
     ) {
         Box(Modifier.padding(6.dp), contentAlignment = Alignment.Center) { thumbnailContent() }
         Column(Modifier.weight(1f).padding(horizontal = 6.dp)) {
-            Text(
-                text = title, fontSize = 14.sp, fontWeight = FontWeight.Bold,
-                maxLines = 1, overflow = TextOverflow.Ellipsis
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = title, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+                if (isVerified) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        painter = painterResource(R.drawable.ic_verified_custom),
+                        contentDescription = "Verified",
+                        tint = Color(0xFF1DB954),
+                        modifier = Modifier.size(14.dp)
+                    )
+                }
+            }
             if (subtitle != null) Row(verticalAlignment = Alignment.CenterVertically) { subtitle() }
         }
         trailingContent()
@@ -160,6 +173,7 @@ fun ListItem(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String?,
+    isVerified: Boolean = false,
     badges: @Composable RowScope.() -> Unit = {},
     thumbnailContent: @Composable () -> Unit,
     trailingContent: @Composable RowScope.() -> Unit = {},
@@ -168,6 +182,7 @@ fun ListItem(
     title = title,
     modifier = modifier,
     isActive = isActive,
+    isVerified = isVerified,
     subtitle = {
         badges()
         if (!subtitle.isNullOrEmpty()) {
@@ -787,6 +802,12 @@ fun MediaMetadataListItem(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@dagger.hilt.EntryPoint
+@dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+interface ItemsVerifierEntryPoint {
+    fun firebaseArtistVerifier(): com.auralis.music.firebase.FirebaseArtistVerifier
+}
+
 @Composable
 fun YouTubeListItem(
     item: YTItem,
@@ -822,10 +843,26 @@ fun YouTubeListItem(
     },
 ) {
     val swipeEnabled by rememberPreference(SwipeToSongKey, defaultValue = false)
+    val context = androidx.compose.ui.platform.LocalContext.current
+    var isVerified by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+
+    if (item is ArtistItem) {
+        androidx.compose.runtime.LaunchedEffect(item.title) {
+            val entryPoint = dagger.hilt.android.EntryPointAccessors.fromApplication(
+                context.applicationContext,
+                ItemsVerifierEntryPoint::class.java
+            )
+            val verifier = entryPoint.firebaseArtistVerifier()
+            verifier.isArtistVerified(item.title).collect { verified ->
+                isVerified = verified
+            }
+        }
+    }
 
     val content: @Composable () -> Unit = {
         ListItem(
             title = item.title,
+            isVerified = isVerified,
             subtitle = when (item) {
                 is SongItem -> joinByBullet(item.artists.joinToString { it.name }, makeTimeString(item.duration?.times(1000L)))
                 is AlbumItem -> joinByBullet(item.artists?.joinToString { it.name }, item.year?.toString())

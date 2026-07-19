@@ -13,6 +13,7 @@ import com.auralis.innertube.models.filterExplicit
 import com.auralis.innertube.models.filterVideoSongs
 import com.auralis.innertube.pages.ArtistPage
 import com.auralis.music.db.MusicDatabase
+import com.auralis.music.firebase.FirebaseArtistVerifier
 import com.auralis.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,9 +40,11 @@ class ArtistViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     database: MusicDatabase,
     savedStateHandle: SavedStateHandle,
+    private val artistVerifier: FirebaseArtistVerifier,
 ) : ViewModel() {
     val artistId = savedStateHandle.get<String>("artistId")!!
     var artistPage by mutableStateOf<ArtistPage?>(null)
+    var isArtistVerified by mutableStateOf<Boolean?>(null)
     val libraryArtist = database.artist(artistId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
     val librarySongs = context.dataStore.data
@@ -69,6 +72,15 @@ class ArtistViewModel @Inject constructor(
                     fetchArtistsFromYTM()
                 }
         }
+        
+        // Also check verification for local artists
+        viewModelScope.launch {
+            libraryArtist.collect { artist ->
+                if (artist != null && artistPage == null) {
+                    checkArtistVerification(artist.artist.name)
+                }
+            }
+        }
     }
 
     fun fetchArtistsFromYTM() {
@@ -84,9 +96,28 @@ class ArtistViewModel @Inject constructor(
                         .filter { section -> section.items.isNotEmpty() }
 
                     artistPage = page.copy(sections = filteredSections)
+                    
+                    // Check artist verification after page is loaded
+                    page.artist?.title?.let { artistName ->
+                        checkArtistVerification(artistName)
+                    }
                 }.onFailure {
                     reportException(it)
                 }
+        }
+    }
+
+    fun checkArtistVerification(artistName: String) {
+        viewModelScope.launch {
+            try {
+                artistVerifier.isArtistVerified(artistName).collect { verified ->
+                    isArtistVerified = verified
+                }
+            } catch (e: Exception) {
+                // If verification fails, treat as not verified and don't crash
+                isArtistVerified = false
+                reportException(e)
+            }
         }
     }
 }

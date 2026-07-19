@@ -29,8 +29,8 @@ android {
         applicationId = "com.auralis.music"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "3.0.0"
+        versionCode = 4
+        versionName = "3.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -264,4 +264,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx:22.5.0")
     implementation("com.google.firebase:firebase-crashlytics-ktx:19.4.4")
     implementation("com.google.firebase:firebase-config-ktx:22.1.2")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.1")
 }

@@ -14,6 +14,8 @@ dependencies {
     implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.client.encoding)
     implementation(libs.brotli)
-    implementation(libs.extractor)
+    implementation(libs.extractor) {
+        exclude(group = "org.json", module = "json")
+    }
     testImplementation(libs.junit)
 }
