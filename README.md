@@ -32,7 +32,7 @@ Auralis Music is designed to provide a seamless and premium music listening expe
 *   **seamless Playback:** seamless songs Playback.
 *   **Background Playback:** Continue listening while using other applications or when the screen is off.
 *   **Offline Mode:** Download tracks, albums, and playlists for offline listening with a dedicated download manager.
-*   **Spotify-inspired Canvas Mode:** Enjoy immersive animated backgrounds while listening to supported songs.
+*   **Spotify-inspired Canvas Mode:** Enjoy immersive animated backgrounds while listening to supported songs.(Auralis Music Canvas is powered by the Echo Canvas API)
 *   **Music Recognition:** Instantly identify songs playing around you with built-in recognition.
 *   **AI Lyrics Translation:** Translate song lyrics into your preferred language in real time.
 *   **spotify Playlist Import:** Import your Spotify playlists quickly and easily into Auralis Music.
