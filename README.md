@@ -21,10 +21,11 @@ Auralis Music is designed to provide a seamless and premium music listening expe
   <img src="assets/sh1.jpg" alt="Home Screen" width="200"/>
   <img src="assets/sh4.jpg" alt="Music Player" width="200"/>
   <img src="assets/sh3.jpg" alt="Playlist Management" width="200"/>
-  <img src="assets/sh2.jpg" alt="find" width="200"/>
-  <video width="320" height="240" controls>
-  <source src="assets/CANVAS-SH-VIDEO12.mp4" type="video/mp4">
-</video>
+ 
+
+https://github.com/user-attachments/assets/2f09584e-2343-496a-b3b2-f109ced63493
+
+
 </div>
 
 
