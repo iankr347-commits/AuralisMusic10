@@ -22,7 +22,9 @@ Auralis Music is designed to provide a seamless and premium music listening expe
   <img src="assets/sh4.jpg" alt="Music Player" width="200"/>
   <img src="assets/sh3.jpg" alt="Playlist Management" width="200"/>
   <img src="assets/sh2.jpg" alt="find" width="200"/>
+  <video width="320" height="240" controls>
   <source src="assets/CANVAS-SH-VIDEO12.mp4" type="video/mp4">
+</video>
 </div>
 
 
